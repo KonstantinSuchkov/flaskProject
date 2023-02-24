@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Users detail
+{% endblock %}
+
+{% block body %}
+<h1>User</h1>
+<h1>{{ user_name }}</h1>
+<div class="row">
+    <div class="col">
+        {% for user_id in users %}
+        <ul>
+            <li>
+                <a href="{{ url_for('user.get_user', pk=user_id) }}">{{ users[user_id] }}</a>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+<div class="col">
+    <h1>Photo</h1>
+    <h1>Файл {{ img }}</h1>
+    <img src="{{ url_for('static', filename='/images/' + img) }}"/>
+</div>
+</div>
+{% endblock %}
