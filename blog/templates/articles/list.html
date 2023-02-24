@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Articles list
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>Author</h1>
+        {% for title in articles %}
+        <ul>
+            <li>
+                <a href="{{ url_for('user.get_user', pk=title) }}">{{ articles[title]['author'] }}</a>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+    <div class="col">
+        <h1>Articles</h1>
+        {% for title in articles %}
+        <ul>
+            <li>
+                {{ articles[title]['text'] }}
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
