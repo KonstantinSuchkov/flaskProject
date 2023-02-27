@@ -1,36 +1,28 @@
 from flask import Blueprint, render_template
 from werkzeug.exceptions import NotFound
 
+from blog.models import Article, User
+
 articles_app = Blueprint('articles_app', __name__, url_prefix='/articles', static_folder='../static')
 
-ARTICLES = {
-    1: {
-        'text': 'Как не убираться дома',
-        'author': 'Amelia',
-        'img': 'None',
-        },
-    2: {
-        'text': 'Как пойти в садик в 1,5 года',
-        'author': 'Varvara',
-        'img': 'varvarka.png',
-        },
-    3: {
-        'text': 'Покоряем flask в 36',
-        'author': 'Papa',
-        'img': 'None',
-        },
-}
 
-
-@articles_app.route("/")
+@articles_app.route('/')
 def articles_list():
-    return render_template("articles/list.html", articles=ARTICLES)
+    articles = Article.query.all()
+    users = User.query.all()
+    return render_template('articles/list.html', articles=articles, users=users)
 
 
-@articles_app.route('/<int:pk>')
-def get_article(pk: int):
+@articles_app.route('/<int:article_id>')
+def get_article(article_id: int):
+    article = Article.query.filter_by(id=article_id).one_or_none()
+    user = User.query.filter_by(id=article_id).one_or_none()
+    print(article)
     try:
-        article = ARTICLES[pk]
+        if article is not None:
+            return render_template('articles/details.html', article=article, user=user)
+        else:
+            raise KeyError
     except KeyError:
-        raise NotFound(f'Article id {pk} not found')
-    return render_template('articles/details.html', article=article, )
+        raise NotFound(f'Article id {article_id} not found')
+

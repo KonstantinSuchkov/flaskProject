@@ -5,13 +5,15 @@ Articles list
 {% endblock %}
 
 {% block body %}
+
 <div class="row">
     <div class="col">
+        {% if current_user.is_authenticated %}
         <h1>Author</h1>
         {% for title in articles %}
         <ul>
             <li>
-                <a href="{{ url_for('user.get_user', pk=title) }}">{{ articles[title]['author'] }}</a>
+                <a href="{{ url_for('user_app.details', user_id=title.id) }}">{{ title.author }}</a>
             </li>
         </ul>
         {% endfor %}
@@ -21,10 +23,13 @@ Articles list
         {% for title in articles %}
         <ul>
             <li>
-                {{ articles[title]['text'] }}
+                {{ title.text }}
             </li>
         </ul>
         {% endfor %}
+        {% else %}
+        <h1> Авторизуйтесь для просмотра статей </h1>
+        {% endif %}
     </div>
 </div>
 

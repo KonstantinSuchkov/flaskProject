@@ -8,10 +8,13 @@ Users list
 <div class="row">
     <div class="col">
         <h1>Users</h1>
-        {% for user_id in users %}
+        {% for user in users %}
         <ul>
             <li>
-                <a href="{{ url_for('user.get_user', pk=user_id) }}">{{ users[user_id] }}</a>
+                <a href="{{ url_for('user_app.details', user_id=user.id) }}">{{ user.username -}}</a>
+                {% if user.is_staff %}
+                <span class="badge bg-secondary">staff</span>
+                {% endif %}
             </li>
         </ul>
         {% endfor %}
@@ -20,5 +23,4 @@ Users list
         One of three columns
     </div>
 </div>
-
 {% endblock %}
