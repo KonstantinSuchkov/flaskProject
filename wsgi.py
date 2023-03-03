@@ -1,8 +1,9 @@
-from blog.app import create_app, db
+from flask_sqlalchemy import SQLAlchemy
+from blog.app import create_app
 from blog.auth import login_manager
+from blog.models.database import db
 
 app = create_app()
-app.secret_key = b'amelia'
 login_manager.init_app(app)
 
 
