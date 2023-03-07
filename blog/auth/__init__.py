@@ -1,6 +1,6 @@
-from blog.auth.views import login_manager, auth_app
+from blog.auth.views import auth_app
 
 __all__ = [
-    "login_manager",
+    # "login_manager",
     "auth_app",
 ]

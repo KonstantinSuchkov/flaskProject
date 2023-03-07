@@ -1,11 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CSRFProtect
+
+from blog import User, Article
 from blog.app import create_app
-from blog.auth import login_manager
 from blog.models.database import db
 
-app = create_app()
-login_manager.init_app(app)
 
+
+app = create_app()
+
+# login_manager.init_app(app)
 
 @app.cli.command("init-db")
 def init_db():
