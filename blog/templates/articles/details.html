@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Articles detail
+Article #{{ article.id }}: {{ article.title }}
 {% endblock %}
 
 {% block body %}
-    {% if current_user.is_authenticated %}
-    <h1>{{ article.author }} {{ article.text }}</h1>
-    {% else %}
-    <h1> Авторизуйтесь для просмотра статей </h1>
-    {% endif %}
+{% if current_user.is_authenticated %}
+<h1>{{ article.title }}</h1>
+<div>
+    <p>{{ article.text }}</p>
+    <div>Published {{ article.dt_created }}</div>
+    <div>by {{ article.author.user.username }}</div>
+</div>
+{% else %}
+<h1> Авторизуйтесь для просмотра статей </h1>
+{% endif %}
 {% endblock %}

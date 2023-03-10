@@ -1,4 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, LargeBinary
+from sqlalchemy.orm import relationship
+
 from blog.models.database import db
 from flask_login import UserMixin
 
@@ -10,14 +12,16 @@ class User(db.Model, UserMixin):
 
     id: db.Column = db.Column(db.Integer, primary_key=True)
 
-    first_name = Column(String(120), unique=False, nullable=False, default="", server_default="")
-    last_name = Column(String(120), unique=False, nullable=False, default="", server_default="")
+    first_name = db.Column(String(120), unique=False, nullable=False, default="", server_default="")
+    last_name = db.Column(String(120), unique=False, nullable=False, default="", server_default="")
 
     username: db.Column = db.Column(db.String(80), unique=True, nullable=False)
     is_staff: db.Column = db.Column(db.Boolean, nullable=False, default=False)
     img: db.Column = db.Column(db.String(80), nullable=False, default='None')
     email: db.Column = db.Column(db.String(255), nullable=False, unique=False, default="", server_default="")
     _password = db.Column(LargeBinary, nullable=True,)
+
+    author = relationship("Author", uselist=False, back_populates="user")
 
     @property
     def password(self):
@@ -39,4 +43,4 @@ class User(db.Model, UserMixin):
     #     self.password = password
 
     def __repr__(self):
-        return f"<User #{self.id} {self.username!r}>"
+        return f"User #{self.id} {self.username!r}>"
