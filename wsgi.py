@@ -1,13 +1,11 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import CSRFProtect
-
-from blog import User, Article
+# from flask_sqlalchemy import SQLAlchemy
+# from flask_wtf import CSRFProtect
+# from blog import User, Article
 from blog.app import create_app
 from blog.models.database import db
 
-
-
 app = create_app()
+
 
 # login_manager.init_app(app)
 
@@ -55,6 +53,26 @@ def create_articles():
     db.session.add(varvara)
     db.session.commit()
     print("done! created articles:", admin, amelia, varvara)
+
+
+@app.cli.command("create-tags")
+def create_tags():
+    """
+    Run in your terminal:
+    ➜ flask create-tags
+    """
+    from blog.models import Tag
+    for name in [
+        "flask",
+        "django",
+        "python",
+        "sqlalchemy",
+        "news",
+    ]:
+        tag = Tag(name=name)
+        db.session.add(tag)
+    db.session.commit()
+    print("created tags")
 
 
 if __name__ == '__main__':

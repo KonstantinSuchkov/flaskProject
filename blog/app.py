@@ -59,15 +59,18 @@ def create_init_user(app):
     print('starting create users...')
     with app.app_context():
         db.create_all()
-        admin = User(username="admin", is_staff=True, password='123')
+        if db.session.query(User).filter_by(username='admin').count() < 1:
+            admin = User(first_name='Konstantin', last_name='Suchkov', username="admin", is_staff=True, email='konstantinsuchkov@yandex.ru', password='123')
+            db.session.add(admin)
         # admin.password = os.environ.get("123") or "adminpass"
-        amelia = User(username="Amelia")
-        varvara = User(username='Varvara', img='varvarka.png')
-        db.session.add(admin)
-        db.session.add(amelia)
-        db.session.add(varvara)
+        if db.session.query(User).filter_by(username='Amelka').count() < 1:
+            amelia = User(first_name='Amelia', last_name='Suchkova', username="Amelka", is_staff=False, email='amelia@yandex.ru', password='123')
+            db.session.add(amelia)
+        if db.session.query(User).filter_by(username='Varvarka').count() < 1:
+            varvara = User(first_name='Varvara', last_name='Suchkova', username="Varvarka", is_staff=False, img='varvarka.png', email='varya@yandex.ru', password='123')
+            db.session.add(varvara)
         db.session.commit()
-        print("done! created users:", admin, amelia, varvara)
+        print('done!')
 
 
 # def create_articles(app):

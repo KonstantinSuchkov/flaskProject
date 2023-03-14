@@ -6,38 +6,39 @@ Articles list
 
 {% block body %}
 
-<div class="row">
-    <div class="col">
-        {% if current_user.is_authenticated %}
-        <h1>Author</h1>
-        {% for title in articles %}
+{% if current_user.is_authenticated %}
+
+<div class="card">
+    <h1>Articles</h1>
+    {% if authors %}
+    {% for article in articles %}
+    <div class="card-header">
+        {% for author in authors %}
         <ul>
             <li>
-                <a href="{{ url_for('user_app.details', pk=title.id) }}">{{ title.author.user.username }}</a>
+                <a href="{{ url_for('user_app.details', pk=author.id) }}">by author {{ author.user.username }}</a>
+                <div class="card-body">
+                    {% for tag in article.tags %}
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <a class="badge bg-primary">{{ tag.name }}</a>
+                    {% endfor %}
+                    <a href="{{ url_for('articles_app.get_article', article_id=article.id) }}" class="btn btn-primary">Читать!!!</a>
+                </div>
             </li>
+            {% endfor %}
         </ul>
-        {% endfor %}
     </div>
+    {% endfor %}
+    {% else %}
+    <h3>No authors yet</h3>
+    {% endif %}
     <div class="col">
-        <h1>Articles</h1>
-        <div>
-            <ul>
-                {% for article in articles %}
-                <li>
-                    <a href="{{ url_for('articles_app.get_article', article_id=article.id) }}">{{
-                        article.title }}</a>
-                    by {{ article.author.user.username }}
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    <div class="col">
-        <a href="{{ url_for('articles_app.create') }}">Create new</a>
+        <a href="{{ url_for('articles_app.create') }}" class="btn btn-primary">Create new article</a>
     </div>
-        {% else %}
-        <h1> Авторизуйтесь для просмотра статей </h1>
-        {% endif %}
-    </div>
+    {% else %}
+    <h5> Авторизуйтесь для просмотра статей </h5>
+    {% endif %}
 </div>
+
 
 {% endblock %}

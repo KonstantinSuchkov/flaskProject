@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
-
+from blog.models.article_tag import article_tag_association_table
 from blog.models.database import db
 
 
@@ -17,6 +17,11 @@ class Article(db.Model):
 
     author = relationship("Author", back_populates="articles")
 
+    tags = relationship(
+        "Tag",
+        secondary=article_tag_association_table,
+        back_populates="articles",
+    )
 
     def __repr__(self):
-        return f'<User #{self.id} {self.text!r}>'
+        return f'<User #{self.id} {self.title!r}>'

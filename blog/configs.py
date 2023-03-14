@@ -3,7 +3,8 @@ import os
 
 DEBUG = False
 TESTING = False
-SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+# SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+SQLALCHEMY_DATABASE_URI = 'sqlite:///blog.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SECRET_KEY = "abcdefg123456"
 WTF_CSRF_ENABLED = True

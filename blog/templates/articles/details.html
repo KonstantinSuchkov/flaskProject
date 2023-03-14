@@ -11,6 +11,14 @@ Article #{{ article.id }}: {{ article.title }}
     <p>{{ article.text }}</p>
     <div>Published {{ article.dt_created }}</div>
     <div>by {{ article.author.user.username }}</div>
+    {% if article.tags %}
+    <div>Tags:</div>
+    <ul>
+        {% for tag in article.tags %}
+        <li class="badge bg-primary">{{ tag.name }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>
 {% else %}
 <h1> Авторизуйтесь для просмотра статей </h1>
