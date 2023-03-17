@@ -5,6 +5,7 @@ from blog.models.database import db
 from flask_login import UserMixin
 
 from blog.security import flask_bcrypt
+from flask_dance.consumer.storage.sqla import OAuthConsumerMixin
 
 
 class User(db.Model, UserMixin):
@@ -22,6 +23,9 @@ class User(db.Model, UserMixin):
     _password = db.Column(LargeBinary, nullable=True,)
 
     author = relationship("Author", uselist=False, back_populates="user")
+
+    def __str__(self):
+        return self.username
 
     @property
     def password(self):
@@ -44,3 +48,8 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User #{self.id} {self.username!r}>"
+
+
+class OAuth(OAuthConsumerMixin, db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user = db.relationship(User)

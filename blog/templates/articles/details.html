@@ -8,7 +8,14 @@ Article #{{ article.id }}: {{ article.title }}
 {% if current_user.is_authenticated %}
 <h1>{{ article.title }}</h1>
 <div>
-    <p>{{ article.text }}</p>
+    <p>{{ article.text }}
+    <a href="{{ url_for('articles_app.list') }}">
+        <button name="forwardBtn" type="submit">Return</button>
+    </a>
+    </p>
+    <a href="{{ url_for('articles_app.text', text=article.text) }}" class="btn btn-primary">Text to mp3</a>
+    <a href="{{ url_for('articles_app.audio') }}" class="btn btn-primary">Listen text</a>
+            {{ result }}
     <div>Published {{ article.dt_created }}</div>
     <div>by {{ article.author.user.username }}</div>
     {% if article.tags %}

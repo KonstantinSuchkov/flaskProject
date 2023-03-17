@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from sqlalchemy.exc import IntegrityError
-
 from blog.forms.user import UserRegisterForm, LoginForm
 from blog.models import User, db
 
@@ -9,6 +8,8 @@ auth_app = Blueprint("auth_app", __name__)
 login_manager = LoginManager()
 # login_manager.init_app()
 login_manager.login_view = "auth_app.login"
+
+
 
 
 @auth_app.route("/register/", methods=["GET", "POST"], endpoint="register")
@@ -69,7 +70,6 @@ def login():
         login_user(user)
         return redirect(url_for('user_app.details', pk=current_user.id))
     return render_template("auth/login.html", form=form)
-
 
 
 @auth_app.route("/logout/", endpoint="logout")

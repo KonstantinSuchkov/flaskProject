@@ -11,3 +11,14 @@ class Author(db.Model):
 
     user = relationship("User", back_populates="author")
     articles = relationship("Article", back_populates="author")
+
+    def __init__(self, id, username, is_staff, img, email, password):
+        self.id = id
+        self.username = username
+        self.is_staff = is_staff
+        self.img = img
+        self.email = email
+        self.password = password
+
+    def __str__(self):
+        return self.user.username

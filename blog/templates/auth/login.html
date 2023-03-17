@@ -20,4 +20,8 @@ Login
         {{ form.submit(class="btn btn-primary btn-lg") }}
     </div>
 </form>
+<a href="{{url_for('login_github')}}" class="btn btn-secondary">
+    <i class="fa fa-github fa-fw"></i>
+    <span>Login with GitHub</span>
+</a>
 {% endblock %}

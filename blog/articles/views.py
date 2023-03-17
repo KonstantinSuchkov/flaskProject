@@ -64,3 +64,25 @@ def create_article():
         else:
             return redirect(url_for("articles_app.get_article", article_id=article.id))
     return render_template("articles/create.html", form=form, error=error)
+
+
+@articles_app.route("/<text>", endpoint="text")
+def text_to_mp3(text='тест один два три', language='ru'):
+    from gtts import gTTS
+    from langdetect import detect
+    if detect(text) != 'ru':
+        language = 'en'
+    text = text.replace('\n', '')
+    my_audio = gTTS(text=text, lang=language, slow=False)
+    my_audio.save('text1.mp3')
+    return redirect(request.referrer)
+
+
+@articles_app.route("/audio", endpoint="audio")
+def audio():
+    import vlc
+    import time
+    p = vlc.MediaPlayer("file:///text1.mp3")
+    p.play()
+    time.sleep(10)
+    return redirect(request.referrer)

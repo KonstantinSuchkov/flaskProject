@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+Trymore list
+{% endblock %}
+{% block body %}
+
+<div class='container'>
+    <h3>Test</h3>
+    <ul>
+        <li>
+            <a href="{{ url_for('trymore_app.test_time') }}" class="btn btn-primary">Moscow time now</a>
+            {{ moscow_time }}
+        </li>
+        <li>
+            <a href="{{ url_for('trymore_app.audio') }}" class="btn btn-primary">Listen text</a>
+            {{ result }}
+        </li>
+        <li>
+            <a href="{{ url_for('trymore_app.weather') }}" class="btn btn-primary">Current Moscow Temperature</a>
+            {{ current_weather }}
+        </li>
+    </ul>
+</div>
+
+{% endblock %}

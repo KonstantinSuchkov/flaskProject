@@ -12,22 +12,21 @@ Articles list
     <h1>Articles</h1>
     {% if authors %}
     {% for article in articles %}
-    <div class="card-header">
-        {% for author in authors %}
-        <ul>
-            <li>
-                <a href="{{ url_for('user_app.details', pk=author.id) }}">by author {{ author.user.username }}</a>
-                <div class="card-body">
-                    {% for tag in article.tags %}
-                    <h5 class="card-title">{{ article.title }}</h5>
-                    <a class="badge bg-primary">{{ tag.name }}</a>
-                    {% endfor %}
-                    <a href="{{ url_for('articles_app.get_article', article_id=article.id) }}" class="btn btn-primary">Читать!!!</a>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
+    Article # {{ article.id }}
+        <div class="card-header">
+            <ul>
+                <li>
+                    <a href="{{ url_for('user_app.details', pk=article.author.user_id) }}">by author {{ article.author.user.username }}</a>
+                    <div class="card-body">
+                        {% for tag in article.tags %}
+                        <h5 class="card-title">{{ article.title }}</h5>
+                        <a class="badge bg-primary">{{ tag.name }}</a>
+                        {% endfor %}
+                        <a href="{{ url_for('articles_app.get_article', article_id=article.id) }}" class="btn btn-primary">Read more!!!</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
     {% endfor %}
     {% else %}
     <h3>No authors yet</h3>

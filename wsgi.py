@@ -1,6 +1,5 @@
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_wtf import CSRFProtect
-# from blog import User, Article
+from flask import redirect, url_for
+from flask_dance.contrib.github import github
 from blog.app import create_app
 from blog.models.database import db
 
@@ -75,8 +74,19 @@ def create_tags():
     print("created tags")
 
 
+@app.route("/login/github")
+def login_github():
+    if not github.authorized:
+        return redirect(url_for("github.login"))
+    res = github.get("/user")
+    username = res.json()["login"]
+    return f"You are @{username} on GitHub"
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
         debug=True,
     )
+
+
