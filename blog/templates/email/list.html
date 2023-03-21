@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Trymore list
+{% endblock %}
+{% block body %}
+
+<h3>Email</h3>
+{% for message in get_flashed_messages() %}
+  <p style="color: red;">{{ message }}</p>
+{% endfor %}
+
+<form method="POST">
+    {{ form.csrf_token }}
+    Email: <input id="email" name="email" type="email"><br/>
+    Message: <textarea id="textarea" name="message"></textarea><br/>
+
+   <button type="submit" name="action">Submit </button>
+</form>
+{% endblock %}

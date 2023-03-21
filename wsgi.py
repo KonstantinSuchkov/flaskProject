@@ -1,10 +1,11 @@
 from flask import redirect, url_for
+# from flask_combo_jsonapi import Api
 from flask_dance.contrib.github import github
 from blog.app import create_app
 from blog.models.database import db
 
+# api = Api()
 app = create_app()
-
 
 # login_manager.init_app(app)
 

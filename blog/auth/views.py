@@ -1,14 +1,64 @@
+import os
+
+import flask
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from sqlalchemy.exc import IntegrityError
 from blog.forms.user import UserRegisterForm, LoginForm
 from blog.models import User, db
+from authlib.integrations.flask_client import OAuth
+
 
 auth_app = Blueprint("auth_app", __name__)
 login_manager = LoginManager()
 # login_manager.init_app()
 login_manager.login_view = "auth_app.login"
+app = flask.current_app
+oauth = OAuth(app)
 
+
+
+# @vk_app.route('/vk')
+# def vk():
+
+@auth_app.route('/vk')
+def vk():
+    # Facebook Oauth Config
+    VK_ID = os.environ.get('VK_ID')
+    VK_SECRET = os.environ.get('VK_SECRET')
+
+    oauth.register(
+        name='vk',
+        client_id=VK_ID,
+        client_secret=VK_SECRET,
+        redirect_uri='https://oauth.vk.com/authorize',
+        response_type='code',
+        authorize_url='https://oauth.vk.com/authorize',
+        request_token_params=None,
+        access_token_params=None,
+        authorize_params=None,
+        client_kwargs=None,
+        display='page',
+        revoke=1,
+        scope='12',
+    )
+    redirect_uri = url_for('auth_app.login', _external=True)
+    if oauth.vk:
+        print('CODE')
+        print(oauth.vk)
+    return oauth.vk.authorize_redirect(redirect_uri)
+
+
+@auth_app.route('/auth/')
+def vk_auth():
+    print('vk_auth start')
+    token = oauth.vk.authorize_access_token()
+    print('1')
+    resp = oauth.vk.get(
+        'https://graph.vk.com/me?fields=id,name,email,picture{url}')
+    profile = resp.json()
+    print("VK User ", profile)
+    return redirect(url_for('auth_app.login'))
 
 
 
