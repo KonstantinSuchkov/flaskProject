@@ -27,6 +27,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('admin.index') }}">Admin</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:5000/api/swagger">Swagger</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('articles_app.data') }}">Articles Data</a>
+                </li>
                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('auth_app.logout') }}">Logout, {{ current_user }} </a>

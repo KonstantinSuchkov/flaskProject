@@ -1,3 +1,4 @@
+from combojsonapi.event import EventPlugin
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask import Flask, session
@@ -17,6 +18,7 @@ from blog.user.views import users_app
 import os
 from social_flask_sqlalchemy.models import init_social
 from flask_combo_jsonapi import Api
+from combojsonapi.permission import PermissionPlugin
 
 
 csrf = CSRFProtect()
@@ -45,7 +47,11 @@ def register_extensions(app):
     admin.init_app(app)
 
     flask_bcrypt.init_app(app)
+    event_plugin = EventPlugin()
+    permission_plugin = PermissionPlugin(strict=False)
     api.plugins = [
+        event_plugin,
+        permission_plugin,
         ApiSpecPlugin(
             app=app,
             tags={

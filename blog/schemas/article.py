@@ -11,7 +11,7 @@ class ArticleSchema(Schema):
 
     id = fields.Integer(as_string=True)
     title = fields.String(allow_none=False)
-    body = fields.String(allow_none=False)
+    text = fields.String(allow_none=False)
     dt_created = fields.DateTime(allow_none=False)
     dt_updated = fields.DateTime(allow_none=False)
 

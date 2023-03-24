@@ -62,6 +62,43 @@ def vk_auth():
 
 
 
+# from flask import Flask, request, make_response, render_template
+# from authomatic.adapters import WerkzeugAdapter
+# from authomatic import Authomatic
+# from authomatic.providers import oauth2
+# CONFIG = {
+#     'google': {
+#         'class_': oauth2.Google,
+#         'consumer_key': '########################',
+#         'consumer_secret': '########################',
+#         'scope': oauth2.Google.user_info_scope + ['https://gdata.youtube.com'],
+#     },
+# }
+# app = Flask(__name__)
+# authomatic = Authomatic(CONFIG, 'random secret string for session signing')
+# @app.route('/login/<provider_name>/', methods=['GET', 'POST'])
+# def login(provider_name):
+#     response = make_response()
+#     # Authenticate the user
+#     result = authomatic.login(WerkzeugAdapter(request, response), provider_name)
+#     if result:
+#         videos = []
+#         if result.user:
+#             # Get user info
+#             result.user.update()
+#             # Talk to Google YouTube API
+#             if result.user.credentials:
+#                 response = result.provider.access('https://gdata.youtube.com/'
+#                     'feeds/api/users/default/playlists?alt=json')
+#                 if response.status == 200:
+#                     videos = response.data.get('feed', {}).get('entry', [])
+#         return render_template(user_name=result.user.name,
+#                                user_email=result.user.email,
+#                                user_id=result.user.id,
+#                                youtube_videos=videos)
+
+
+
 @auth_app.route("/register/", methods=["GET", "POST"], endpoint="register")
 def register():
     if current_user.is_authenticated:
