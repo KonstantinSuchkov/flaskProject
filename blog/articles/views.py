@@ -1,5 +1,5 @@
 from typing import Dict
-
+import vlc
 from flask import Blueprint, render_template, request, current_app, redirect, url_for
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
@@ -83,7 +83,6 @@ def text_to_mp3(text='тест один два три', language='ru'):
 
 @articles_app.route("/audio", endpoint="audio")
 def audio():
-    import vlc
     import time
     p = vlc.MediaPlayer("file:///text1.mp3")
     p.play()
