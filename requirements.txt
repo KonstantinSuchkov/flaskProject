@@ -44,7 +44,7 @@ Mako==1.2.4
 MarkupSafe==2.0.1
 marshmallow==3.2.1
 marshmallow-jsonapi==0.24.0
-numpy==1.24.2
+numpy
 oauthlib==3.2.2
 packaging==23.0
 pandas==1.5.3
