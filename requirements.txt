@@ -64,3 +64,4 @@ Wand==0.6.11
 Werkzeug==0.16.1
 WTForms==2.3.3
 gunicorn
+Flask-Dance
