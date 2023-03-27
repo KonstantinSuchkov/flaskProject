@@ -19,7 +19,7 @@ OPENAPI_URL_PREFIX = '/api/swagger'
 OPENAPI_SWAGGER_UI_PATH = '/'
 OPENAPI_SWAGGER_UI_VERSION = '3.22.0'
 
-
+URL = os.environ.get("URL")
 
 VK_ID = os.environ.get("VK_ID")
 VK_SECRET = os.environ.get("VK_SECRET")
@@ -30,6 +30,7 @@ MAIL_USERNAME = 'kosta2nu@gmail.com'
 MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
+
 
 class BaseConfig(object):
     DEBUG = False

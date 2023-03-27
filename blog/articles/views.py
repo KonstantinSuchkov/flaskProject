@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 from werkzeug.exceptions import NotFound
 from blog import Author, Tag
+from blog.configs import URL
 from blog.forms.article import CreateArticleForm
 from blog.models import Article, User
 from blog.models.database import db
@@ -93,15 +94,15 @@ def audio():
 @articles_app.route("/data", endpoint="data")
 def articles_data():
     import requests
-    count_articles: Dict = requests.get('http://127.0.0.1:5000/api/articles/event_get_count/').json()
-    url_articles = 'http://127.0.0.1:5000/api/articles/?include=author%2Ctags&fields%5Barticle%5D=id,title,text,' \
+    count_articles: Dict = requests.get(f'{URL}/api/articles/event_get_count/').json()
+    url_articles = f'{URL}/api/articles/?include=author%2Ctags&fields%5Barticle%5D=id,title,text,' \
                    'dt_created,dt_updated,author,tags&fields%5Bauthor%5D=id,articles,user&fields%5Btag%5D=id,' \
                    'name&page%5Bnumber%5D=1&page%5Bsize%5D=10 '
-    url_authors = 'http://127.0.0.1:5000/api/authors/?include=user%2Carticles&fields%5Bauthor%5D=id,user,' \
+    url_authors = f'{URL}/api/authors/?include=user%2Carticles&fields%5Bauthor%5D=id,user,' \
                   'articles&fields%5Buser%5D=last_name,email,first_name,username,author,id,' \
                   'is_staff&fields%5Barticle%5D=tags,text,title,dt_created,author,id,' \
                   'dt_updated&page%5Bnumber%5D=1&page%5Bsize%5D=10 '
-    url_users = 'http://127.0.0.1:5000/api/users/?include=author&fields%5Buser%5D=id,first_name,last_name,username,' \
+    url_users = f'{URL}/api/users/?include=author&fields%5Buser%5D=id,first_name,last_name,username,' \
                 'email,is_staff,author&fields%5Bauthor%5D=id,articles,user&page%5Bnumber%5D=1&page%5Bsize%5D=10 '
     r = requests.get(url_articles)
     result_articles = r.json()
