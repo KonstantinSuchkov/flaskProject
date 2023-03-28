@@ -29,6 +29,7 @@ def get_article(article_id: int):
     article = Article.query.filter_by(id=article_id).options(joinedload(Article.tags)).one_or_none()  # подгружаем связанные теги!
     user = User.query.filter_by(id=article_id).one_or_none()
     print(article)
+    print(os.getcwd())
     try:
         if article is not None:
             return render_template('articles/details.html', article=article, user=user)
