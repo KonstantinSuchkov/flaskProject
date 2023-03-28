@@ -85,4 +85,3 @@ WTForms==2.3.3
 vext
 vext.gi
 pygame
-pyglet==2.0.0

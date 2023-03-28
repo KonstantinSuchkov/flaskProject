@@ -17,7 +17,7 @@ Article #{{ article.id }}: {{ article.title }}
     </div>
     <div class="row">
         <div class="col-6">
-            <a href="{{ url_for('articles_app.text', text=article.text) }}" class="btn btn-primary">Text to mp3</a>
+            <a href="{{ url_for('articles_app.text', text=article.text ) }}" class="btn btn-primary">Text to mp3</a>
             <a href="{{ url_for('articles_app.audio') }}" class="btn btn-primary">Listen text</a>
             </div>
             {{ result }}
