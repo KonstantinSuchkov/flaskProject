@@ -30,6 +30,7 @@ def get_article(article_id: int):
     user = User.query.filter_by(id=article_id).one_or_none()
     print(article)
     print(os.getcwd())
+    print(os.listdir(PATH_MP3))
     try:
         if article is not None:
             return render_template('articles/details.html', article=article, user=user)
