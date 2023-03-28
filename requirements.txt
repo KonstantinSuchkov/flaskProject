@@ -85,3 +85,4 @@ WTForms==2.3.3
 playsound==1.2.2
 vext
 vext.gi
+python3-gi
