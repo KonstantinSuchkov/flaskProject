@@ -2,9 +2,6 @@ from flask import Blueprint, render_template
 from datetime import datetime
 import pytz
 
-import os
-os.environ['SDL_AUDIODRIVER'] = 'dsp'
-
 
 trymore_app = Blueprint('trymore_app', __name__, url_prefix='/', static_folder='../static')
 
@@ -22,8 +19,6 @@ def audio():
     import time
     import pygame
     from blog.configs import PATH_MP3
-    import os
-    os.environ['SDL_AUDIODRIVER'] = 'dsp'
     pygame.mixer.init()
     pygame.mixer.music.load(f'{PATH_MP3}/text1.mp3')
     pygame.mixer.music.play()
@@ -57,4 +52,3 @@ def weather():
     current_weather = f'На данный момент в Москве {result["current_weather"]["temperature"]} C.'
 
     return render_template('trymore/list.html', current_weather=current_weather)
-
