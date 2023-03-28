@@ -82,7 +82,6 @@ Wand==0.6.11
 wcwidth==0.2.6
 Werkzeug==0.16.1
 WTForms==2.3.3
-playsound==1.2.2
 vext
 vext.gi
 pygame
