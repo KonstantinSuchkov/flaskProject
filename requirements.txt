@@ -60,7 +60,6 @@ PyJWT==2.6.0
 pyproject_hooks==1.0.0
 python-dateutil==2.8.2
 python-dotenv==0.17.1
-python-vlc
 python3-openid==3.2.0
 pytz==2022.7.1
 PyYAML==5.4.1
@@ -83,3 +82,4 @@ Wand==0.6.11
 wcwidth==0.2.6
 Werkzeug==0.16.1
 WTForms==2.3.3
+playsound==1.2.2

@@ -1,3 +1,4 @@
+import os
 from typing import Dict
 import vlc
 from flask import Blueprint, render_template, request, current_app, redirect, url_for
@@ -6,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 from werkzeug.exceptions import NotFound
 from blog import Author, Tag
-from blog.configs import URL
+from blog.configs import URL, PATH_MP3
 from blog.forms.article import CreateArticleForm
 from blog.models import Article, User
 from blog.models.database import db
@@ -83,10 +84,8 @@ def text_to_mp3(text='тест один два три', language='ru'):
 
 @articles_app.route("/audio", endpoint="audio")
 def audio():
-    import time
-    p = vlc.MediaPlayer("file:///text1.mp3")
-    p.play()
-    time.sleep(10)
+    from playsound import playsound
+    playsound(f'{PATH_MP3}/text1.mp3', True)
     return redirect(request.referrer)
 
 
