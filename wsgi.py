@@ -3,7 +3,10 @@ from flask import redirect, url_for
 from flask_dance.contrib.github import github
 from blog.app import create_app
 from blog.models.database import db
+import os
 
+
+os.environ['SDL_AUDIODRIVER'] = 'dsp'
 # api = Api()
 app = create_app()
 
