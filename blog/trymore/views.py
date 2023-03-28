@@ -52,3 +52,13 @@ def weather():
     current_weather = f'На данный момент в Москве {result["current_weather"]["temperature"]} C.'
 
     return render_template('trymore/list.html', current_weather=current_weather)
+
+
+@trymore_app.route("/text", endpoint="text")
+def text():
+    f = open('example.txt', 'r')
+    try:
+        print('open file example.txt')
+    finally:
+        f.close()
+    return render_template('trymore/list.html')
