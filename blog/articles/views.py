@@ -78,7 +78,7 @@ def text_to_mp3(text='тест один два три', language='ru'):
         language = 'en'
     text = text.replace('\n', '')
     my_audio = gTTS(text=text, lang=language, slow=False)
-    my_audio.save('text1.mp3')
+    my_audio.save(f'{PATH_MP3}/text1.mp3')
     return redirect(request.referrer)
 
 
