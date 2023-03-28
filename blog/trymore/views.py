@@ -17,14 +17,14 @@ def text_to_mp3(text='', language='ru'):
 @trymore_app.route("/audio", endpoint="audio")
 def audio():
     import time
-    from pygame import mixer
+    import pygame
     from blog.configs import PATH_MP3
-    mixer.init()
-    mixer.music.load(f'{PATH_MP3}/text1.mp3')
-    mixer.music.play()
-    while mixer.music.get_busy():  # wait for music to finish playing
+    pygame.mixer.init()
+    pygame.mixer.music.load(f'{PATH_MP3}/text1.mp3')
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():  # wait for music to finish playing
         time.sleep(1)
-    mixer.quit()
+    pygame.mixer.quit()
     result = 'done'
     return render_template('trymore/list.html', result=result)
 

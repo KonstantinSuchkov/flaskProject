@@ -11,6 +11,7 @@ from blog.configs import URL, PATH_MP3
 from blog.forms.article import CreateArticleForm
 from blog.models import Article, User
 from blog.models.database import db
+import pygame
 
 articles_app = Blueprint('articles_app', __name__, url_prefix='/articles', static_folder='../static')
 
@@ -85,13 +86,12 @@ def text_to_mp3(text='тест один два три', language='ru'):
 @articles_app.route("/audio", endpoint="audio")
 def audio():
     import time
-    from pygame import mixer
-    mixer.init()
-    mixer.music.load(f'{PATH_MP3}/text1.mp3')
-    mixer.music.play()
-    while mixer.music.get_busy():  # wait for music to finish playing
+    pygame.mixer.init()
+    pygame.mixer.music.load(f'{PATH_MP3}/text1.mp3')
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():  # wait for music to finish playing
         time.sleep(1)
-    mixer.quit()
+    pygame.mixer.quit()
     return redirect(request.referrer)
 
 
