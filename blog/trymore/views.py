@@ -10,18 +10,21 @@ def text_to_mp3(text='', language='ru'):
     from gtts import gTTS
     text = text.replace('\n', '')
     my_audio = gTTS(text=text, lang=language, slow=False)
-    file_name = 'text1'
-    my_audio.save(f'{file_name}.mp3')
+    my_audio.save('text1.mp3')
     return render_template('trymore/list.html')
 
 
 @trymore_app.route("/audio", endpoint="audio")
 def audio():
-    import vlc
     import time
-    p = vlc.MediaPlayer("file:///text1.mp3")
-    p.play()
-    time.sleep(10)
+    from pygame import mixer
+    from blog.configs import PATH_MP3
+    mixer.init()
+    mixer.music.load(f'{PATH_MP3}/text1.mp3')
+    mixer.music.play()
+    while mixer.music.get_busy():  # wait for music to finish playing
+        time.sleep(1)
+    mixer.quit()
     result = 'done'
     return render_template('trymore/list.html', result=result)
 

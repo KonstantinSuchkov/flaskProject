@@ -84,8 +84,14 @@ def text_to_mp3(text='тест один два три', language='ru'):
 
 @articles_app.route("/audio", endpoint="audio")
 def audio():
-    from playsound import playsound
-    playsound(f'{PATH_MP3}/text1.mp3', True)
+    import time
+    from pygame import mixer
+    mixer.init()
+    mixer.music.load(f'{PATH_MP3}/text1.mp3')
+    mixer.music.play()
+    while mixer.music.get_busy():  # wait for music to finish playing
+        time.sleep(1)
+    mixer.quit()
     return redirect(request.referrer)
 
 
