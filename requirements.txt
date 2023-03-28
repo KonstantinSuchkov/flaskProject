@@ -84,4 +84,4 @@ Werkzeug==0.16.1
 WTForms==2.3.3
 playsound==1.2.2
 homekit
-pygobject
+libgirepository1.0-dev
