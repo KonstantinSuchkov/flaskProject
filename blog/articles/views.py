@@ -83,6 +83,8 @@ def text_to_mp3(title= 'test title', text='тест один два три', lan
     name_file = PATH_MP3 + '/' + title.replace(' ', '_') + '.mp3'
     mp3_list.append(f"sound/{title.replace(' ', '_')}.mp3")
     print(mp3_list)
+    if not os.path.isdir(PATH_MP3):
+        os.mkdir(PATH_MP3)
     my_audio.save(f'{name_file}')
     return render_template('trymore/list.html', mp3_list=list(set(mp3_list)))
 
