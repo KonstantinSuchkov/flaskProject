@@ -5,20 +5,19 @@ Trymore list
 {% block body %}
 
 <div class='container'>
-    <h3>Test</h3>
+    <h3>Some try more gg ms</h3>
     <ul>
         <li>
             <a href="{{ url_for('trymore_app.test_time') }}" class="btn btn-primary">Moscow time now</a>
             {{ moscow_time }}
         </li>
         <li>
-            <a href="{{ url_for('trymore_app.audio') }}" class="btn btn-primary">Listen text</a>
-            <audio controls>
-                <source src="static/sound/text1.mp3" type="audio/mpeg">
-                Тег audio не поддерживается вашим браузером.
-                <a href="text1.mp3">Скачайте музыку</a>.
-            </audio>
+            <a href="{{ url_for('trymore_app.audio') }}" class="btn btn-primary">Listen text by pygame (not work
+                yet)</a>
             {{ result }}
+        </li>
+        <li>
+            <a href="{{ url_for('trymore_app.clean') }}" class="btn btn-primary">Clean mp3 store</a>
         </li>
         <li>
             <a href="{{ url_for('trymore_app.text') }}" class="btn btn-primary">Test text file</a>
@@ -31,6 +30,22 @@ Trymore list
             <a href="{{ url_for('email_app.list') }}" class="btn btn-primary">Send email</a>
         </li>
     </ul>
+    mp3 List
+    {{ mp3_list }}
+    {% if mp3_list!=None %}
+    {% for file in mp3_list %}
+    <ul>
+        <li>
+            {{ file }}
+            <audio controls>
+                <source src="{{ url_for('static', filename=file) }}" type="audio/mpeg">
+                Тег audio не поддерживается вашим браузером.
+                <a href="{{ url_for('static', filename=file) }}">Скачайте музыку</a>.
+            </audio>
+        </li>
+    </ul>
+    {% endfor %}
+    {% endif %}
 </div>
 
 {% endblock %}

@@ -21,6 +21,7 @@ OPENAPI_SWAGGER_UI_VERSION = '3.22.0'
 
 URL = os.environ.get("URL")
 PATH_MP3 = os.environ.get("PATH_MP3")
+MP3_LIST = os.environ.get("MP3_LIST")
 
 VK_ID = os.environ.get("VK_ID")
 VK_SECRET = os.environ.get("VK_SECRET")

@@ -36,6 +36,7 @@ def create_app() -> Flask:
     create_init_user(app)
     init_social(app, session)
     register_api()
+    del_mp3()  # удаляет все файлы из static/sound
     # create_articles(app)
     return app
 
@@ -124,7 +125,7 @@ def create_init_user(app):
                            img='varvarka.png', email='varya@yandex.ru', password='123')
             db.session.add(varvara)
         db.session.commit()
-        print('done!')
+        print('...done!')
 
 # def create_articles(app):
 #     from blog.models import Article
@@ -138,3 +139,16 @@ def create_init_user(app):
 #         db.session.add(varvara)
 #         db.session.commit()
 #         print("done! created articles:", admin.title, amelia.title, varvara.title)
+
+
+def del_mp3():
+    import glob
+    from blog.configs import PATH_MP3
+    from blog.articles.views import mp3_list
+    print('clean mp3 store...')
+    mp3_list.clear()
+    files = glob.glob(f'{PATH_MP3}/*')
+    for f in files:
+        os.remove(f)
+    print('...done')
+    return mp3_list

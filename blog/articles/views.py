@@ -13,8 +13,9 @@ from blog.models import Article, User
 from blog.models.database import db
 import pygame
 
-articles_app = Blueprint('articles_app', __name__, url_prefix='/articles', static_folder='../static')
 
+articles_app = Blueprint('articles_app', __name__, url_prefix='/articles', static_folder='../static')
+mp3_list = []
 
 @articles_app.route("/", endpoint="list")
 def articles_list():
@@ -71,23 +72,26 @@ def create_article():
     return render_template("articles/create.html", form=form, error=error)
 
 
-@articles_app.route("/<text>", endpoint="text")
-def text_to_mp3(text='тест один два три', language='ru'):
+@articles_app.route("/<text>/<title>", endpoint="text")
+def text_to_mp3(title= 'test title', text='тест один два три', language='ru'):
     from gtts import gTTS
     from langdetect import detect
     if detect(text) != 'ru':
         language = 'en'
     text = text.replace('\n', '')
     my_audio = gTTS(text=text, lang=language, slow=False)
-    my_audio.save(f'{PATH_MP3}/text1.mp3')
-    return redirect(request.referrer)
+    name_file = PATH_MP3 + '/' + title.replace(' ', '_') + '.mp3'
+    mp3_list.append(f"sound/{title.replace(' ', '_')}.mp3")
+    print(mp3_list)
+    my_audio.save(f'{name_file}')
+    return render_template('trymore/list.html', mp3_list=list(set(mp3_list)))
 
 
 @articles_app.route("/audio", endpoint="audio")
 def audio():
     import time
     pygame.mixer.init()
-    pygame.mixer.music.load(f'{PATH_MP3}/text1.mp3')
+    pygame.mixer.music.load(f'blog/static/sound/text1.mp3')
     pygame.mixer.music.play()
     while pygame.mixer.music.get_busy():  # wait for music to finish playing
         time.sleep(1)

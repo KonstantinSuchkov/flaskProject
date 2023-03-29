@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from datetime import datetime
 import pytz
+from werkzeug.utils import redirect
 
 from blog.configs import PATH_MP3
 
@@ -26,10 +27,19 @@ def audio():
     return render_template('trymore/list.html', result=result)
 
 
+@trymore_app.route("/clean", endpoint="clean")
+def del_mp3():
+    from blog.app import del_mp3
+    del_mp3()
+    return redirect(request.referrer)
+
+
 @trymore_app.route("/", endpoint="list")
 def trymore_list():
     print("list")
-    return render_template('trymore/list.html')
+    mp3_list = request.args.get('mp3_list')
+    print(mp3_list)
+    return render_template('trymore/list.html', mp3_list=mp3_list)
 
 
 @trymore_app.route('/test')
@@ -59,3 +69,5 @@ def text():
     finally:
         f.close()
     return render_template('trymore/list.html')
+
+
