@@ -1,9 +1,11 @@
 import os
 
 import flask
-from flask import Blueprint, render_template, request, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, current_app, session
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
+
 from blog.forms.user import UserRegisterForm, LoginForm
 from blog.models import User, db
 from authlib.integrations.flask_client import OAuth
@@ -16,87 +18,64 @@ login_manager.login_view = "auth_app.login"
 app = flask.current_app
 oauth = OAuth(app)
 
+github = oauth.register(
+    name='flaskProject',
+    client_id=os.getenv("GITHUB_ID"),
+    client_secret=os.getenv("GITHUB_SECRET"),
+    access_token_url='https://github.com/login/oauth/access_token',
+    access_token_params=None,
+    authorize_url='https://github.com/login/oauth/authorize',
+    authorize_params=None,
+    api_base_url='https://api.github.com/',
+    client_kwargs={'scope': 'user:email'},
+)
+
+@auth_app.route('/login')
+def registro():
+    github = oauth.create_client('flaskProject')
+    redirect_uri = url_for('auth_app.authorize', _external=True)
+    return github.authorize_redirect(redirect_uri)
 
 
-# @vk_app.route('/vk')
-# def vk():
+@auth_app.route('/authorize')
+def authorize():
+    github = oauth.create_client('flaskProject')
+    token = github.authorize_access_token()
+    resp = github.get('user', token=token)
+    profile = resp.json()
+    print(profile, token)
+    info = github.get("/user")
+    if info.ok:
+        account_info = info.json()
+        username = account_info["login"]
+        img = account_info["avatar_url"]
+        query = User.query.filter_by(username=username)
+        try:
+            user = query.one()
+        except NoResultFound:
+            user = User(username=username, img=img)
+            db.session.add(user)
+            db.session.commit()
+        login_user(user)
+    return redirect(url_for('user_app.details', pk=current_user.id))
 
-@auth_app.route('/vk')
+
+@auth_app.route('/')
 def vk():
-    # Facebook Oauth Config
     VK_ID = os.environ.get('VK_ID')
     VK_SECRET = os.environ.get('VK_SECRET')
-
-    oauth.register(
-        name='vk',
-        client_id=VK_ID,
-        client_secret=VK_SECRET,
-        redirect_uri='https://oauth.vk.com/authorize',
-        response_type='code',
-        authorize_url='https://oauth.vk.com/authorize',
-        request_token_params=None,
-        access_token_params=None,
-        authorize_params=None,
-        client_kwargs=None,
-        display='page',
-        revoke=1,
-        scope='12',
-    )
-    redirect_uri = url_for('auth_app.login', _external=True)
-    if oauth.vk:
-        print('CODE')
-        print(oauth.vk)
-    return oauth.vk.authorize_redirect(redirect_uri)
-
-
-@auth_app.route('/auth/')
-def vk_auth():
-    print('vk_auth start')
-    token = oauth.vk.authorize_access_token()
-    print('1')
-    resp = oauth.vk.get(
-        'https://graph.vk.com/me?fields=id,name,email,picture{url}')
-    profile = resp.json()
-    print("VK User ", profile)
-    return redirect(url_for('auth_app.login'))
-
-
-
-# from flask import Flask, request, make_response, render_template
-# from authomatic.adapters import WerkzeugAdapter
-# from authomatic import Authomatic
-# from authomatic.providers import oauth2
-# CONFIG = {
-#     'google': {
-#         'class_': oauth2.Google,
-#         'consumer_key': '########################',
-#         'consumer_secret': '########################',
-#         'scope': oauth2.Google.user_info_scope + ['https://gdata.youtube.com'],
-#     },
-# }
-# app = Flask(__name__)
-# authomatic = Authomatic(CONFIG, 'random secret string for session signing')
-# @app.route('/login/<provider_name>/', methods=['GET', 'POST'])
-# def login(provider_name):
-#     response = make_response()
-#     # Authenticate the user
-#     result = authomatic.login(WerkzeugAdapter(request, response), provider_name)
-#     if result:
-#         videos = []
-#         if result.user:
-#             # Get user info
-#             result.user.update()
-#             # Talk to Google YouTube API
-#             if result.user.credentials:
-#                 response = result.provider.access('https://gdata.youtube.com/'
-#                     'feeds/api/users/default/playlists?alt=json')
-#                 if response.status == 200:
-#                     videos = response.data.get('feed', {}).get('entry', [])
-#         return render_template(user_name=result.user.name,
-#                                user_email=result.user.email,
-#                                user_id=result.user.id,
-#                                youtube_videos=videos)
-
+    name='flaskProject'
+    client_id=VK_ID
+    client_secret=VK_SECRET
+    redirect_uri='https://oauth.vk.com/authorize'
+    response_type='code'
+    authorize_url='https://oauth.vk.com/authorize'
+    access_token_url='https://oauth.vk.com/access_token'
+    token_endpoint_auth_method='none'
+    display='page'
+    revoke=1
+    scope='12'
+    return redirect(f'{redirect_uri}?client_id={client_id}&display={display}&redirect_uri=http://127.0.0.1:5000/auth/response_type=code&v=5.131')
 
 
 @auth_app.route("/register/", methods=["GET", "POST"], endpoint="register")

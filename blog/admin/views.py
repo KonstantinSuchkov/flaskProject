@@ -45,7 +45,7 @@ class UserAdminView(CustomView):
     column_editable_list = ("first_name", "last_name", "is_staff")
     can_create = True
     can_edit = True
-    can_delete = False
+    can_delete = True
 
 
 # class AuthorAdminView(CustomView):

@@ -20,12 +20,13 @@ Login
         {{ form.submit(class="btn btn-primary btn-lg") }}
     </div>
 </form>
-<a href="{{url_for('login_github')}}" class="btn btn-secondary">
+<a href="{{url_for('auth_app.registro')}}" class="btn btn-secondary">
     <i class="fa fa-github fa-fw"></i>
     <span>Login with GitHub</span>
 </a>
 <a href="{{url_for('auth_app.vk')}}" class="btn btn-secondary">
     <i class="fa fa-github fa-fw"></i>
-    <span>Login with VK</span>
+    <span>Login with VK(in progress!!!)</span>
 </a>
+
 {% endblock %}
